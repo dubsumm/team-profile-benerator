@@ -1,1 +1,1 @@
-# team-profile-benerator
+# team-profile-generator
