@@ -15,3 +15,77 @@
 // THEN I am prompted to enter the intern’s name, ID, email, and school, and I am taken back to the menu
 // WHEN I decide to finish building my team
 // THEN I exit the application, and the HTML is generated
+const inquirer = require('inquirer')
+const Employee = require('./lib/employee')
+const fs = require('fs');
+const manager = [
+    {
+        type: 'input',
+        message: `What is the team manager's name?`,
+        name: 'name',
+        default: 'Will',
+        validate: (answer) => {
+            if(answer === '') {
+                return `Please enter a name for the manager`
+            }
+            return true;
+        }
+    },
+    {
+        type:'input',
+        message:`What is your manager's id number`,
+        name:'employeeId',
+        default: 456,
+        validate: (answer) => {
+            if(isNaN(answer)) {
+                return `Please enter a valid number:`
+            }
+            return true;
+        }
+    },
+    {
+        type:'input',
+        message:`What is your team manager's email address?`,
+        name:'email',
+        default: 'billyboi@aol.com',
+        validate: (answer) => {
+            if(answer === '') {
+                return `Please enter a valid email address`
+            }
+            return true;
+        }
+    }
+]
+
+function initialPrompt() {
+inquirer.prompt(manager).then(answers => {
+
+        const employee1 = new Employee(answers.name,answers.employeeId, answers.email)
+        console.log(employee1)
+        console.log(`this is ${employee1.name} with the ID: ${employee1.id} they can be reached at, ${employee1.email}`);
+        // cont();
+    })
+}
+
+// function cont() {
+//     inquirer.prompt({
+//         type:'list',
+//         message:'Add and engineer, Intern or Finish building your team?',
+//         name:'roles',
+//         choices: ['Engineer','Intern','All Done']
+//     }).then(answer => {
+//         console.log(JSON.stringify(answer.name))
+//         if(answer.name === 'Engineer') {
+//             console.log('test')
+
+//         } else if(answer === 'Intern') {
+
+//         } else {
+
+//         }
+
+//     })
+    
+}
+
+initialPrompt();
