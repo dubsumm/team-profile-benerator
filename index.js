@@ -214,15 +214,15 @@ const cont = () => {
     inquirer.prompt({
         type:'list',
         message:'Add and engineer, Intern or Finish?',
-        name:'member',
+        name:'role',
         choices: ['Engineer','Intern','All Done']
     }).then(answer => {
-        if(answer.member === 'Engineer') {
+        if(answer.role === 'Engineer') {
             newEngineer();
-        } else if(answer.member === 'Intern') {
+        } else if(answer.role === 'Intern') {
             newIntern();
         } else {
-            console.log('Bag secured and the HTML is generated')
+            console.log('Bag secured')
             console.log(team);
             writeHTML();
         }
@@ -233,7 +233,7 @@ const cont = () => {
 function manCard(manager) {
     return `
       <div class="card m-5" style="width: 25rem;">
-        <div class="bg-info text-white" >
+        <div class="bg-primary text-white" >
           <h5 class="card-title m-2">${manager.name}</h5>
           <h5 class="card-text m-2">Manager</h5>
         </div>
@@ -245,33 +245,33 @@ function manCard(manager) {
       </div>`
   };
   
-  function cards(member) {
-    switch (member.getRole()) {
+  function cards(role) {
+    switch (role.getRole()) {
       case "Engineer":
         return `
           <div class="card m-4" style="width: 20rem;">
             <div class="bg-info text-white" >
-              <h5 class="card-title m-2">${member.name}</h5>
+              <h5 class="card-title m-2">${role.name}</h5>
               <h5 class="card-text m-2">Engineer</h5>
             </div>
             <ul class="list-group">
-              <li class="list-group-item">id: ${member.id}</li>
-              <li class="list-group-item">email: ${member.email}</li>
-              <li class="list-group-item">github: ${member.gitUser}</li>
+              <li class="list-group-item">id: ${role.id}</li>
+              <li class="list-group-item">email: ${role.email}</li>
+              <li class="list-group-item">github: ${role.gitUser}</li>
             </ul>
           </div>`;
   
       case "Intern" :
         return `
         <div class="card m-4" style="width: 20rem;">
-          <div class="bg-info text-white" >
-            <h5 class="card-title m-2">${member.name}</h5>
+          <div class="bg-success text-white" >
+            <h5 class="card-title m-2">${role.name}</h5>
             <h5 class="card-text m-2">Intern</h5>
           </div>
           <ul class="list-group">
-            <li class="list-group-item">id: ${member.id}</li>
-            <li class="list-group-item">email: ${member.email}</li>
-            <li class="list-group-item">school: ${member.school}</li>
+            <li class="list-group-item">id: ${role.id}</li>
+            <li class="list-group-item">email: ${role.email}</li>
+            <li class="list-group-item">school: ${role.school}</li>
           </ul>
         </div>`;
     }  
@@ -305,7 +305,7 @@ function manCard(manager) {
   
   function createCards() {
     let allCards = cards(team[1]);
-    for (let i = 2; i < team.length; i++) {
+    for (let i = 1; i < team.length; i++) {
       allCards = allCards + cards(team[i]);
     }
     // console.log(allCards)
@@ -315,7 +315,7 @@ function manCard(manager) {
   const writeHTML = function() {
     const newHTML = makeHTML(cards)
     fs.writeFile('./dist/index.html', newHTML, (error) => 
-    error ? console.log(error) : console.log('INDEX HTML MADE')
+    error ? console.log(error) : console.log('The HTML is generated check out the dist/ folder')
     );
   };
   
