@@ -15,15 +15,19 @@
 // THEN I am prompted to enter the intern’s name, ID, email, and school, and I am taken back to the menu
 // WHEN I decide to finish building my team
 // THEN I exit the application, and the HTML is generated
-const inquirer = require('inquirer')
-const Employee = require('./lib/employee')
+const inquirer = require('inquirer');
+const Employee = require('./lib/employee');
+const Manager = require('./lib/manager');
+const Engineer = require('./lib/engineer');
+const Intern = require('./lib/intern');
 const fs = require('fs');
+const team = [];
 const manager = [
     {
         type: 'input',
         message: `What is the team manager's name?`,
         name: 'name',
-        default: 'Will',
+        default: 'Jill',
         validate: (answer) => {
             if(answer === '') {
                 return `Please enter a name for the manager`
@@ -33,7 +37,7 @@ const manager = [
     },
     {
         type:'input',
-        message:`What is your manager's id number`,
+        message:`What is the manager's id number`,
         name:'employeeId',
         default: 456,
         validate: (answer) => {
@@ -45,7 +49,109 @@ const manager = [
     },
     {
         type:'input',
-        message:`What is your team manager's email address?`,
+        message:`What is the team manager's email address?`,
+        name:'email',
+        default: 'JillyJoi@aol.com',
+        validate: (answer) => {
+            if(answer === '') {
+                return `Please enter a valid email address`
+            }
+            return true;
+        }
+    },
+    {
+        type:'input',
+        message:`What is the team manager's office number?`,
+        name:'office',
+        default: '2',
+        validate: (answer) => {
+            if(isNaN(answer)) {
+                return `Please enter a valid number:`
+            }
+            return true;
+        }
+    }
+]
+const engineer = [
+    {
+        type: 'input',
+        message: `What is the engineer's name?`,
+        name: 'name',
+        default: 'Will',
+        validate: (answer) => {
+            if(answer === '') {
+                return `Please enter a name for the manager`
+            }
+            return true;
+        }
+    },
+    {
+        type:'input',
+        message:`What is the engineer's id number`,
+        name:'employeeId',
+        default: 602,
+        validate: (answer) => {
+            if(isNaN(answer)) {
+                return `Please enter a valid number:`
+            }
+            return true;
+        }
+    },
+    {
+        type:'input',
+        message:`What is the engineer's email address?`,
+        name:'email',
+        default: 'WillyWoi@aol.com',
+        validate: (answer) => {
+            if(answer === '') {
+                return `Please enter a valid email address`
+            }
+            return true;
+        }
+    },
+    {
+        type:'input',
+        message:`What is the engineer's GIthub username?`,
+        name:'gitUser',
+        default: 'dubsumm',
+         
+        validate: (answer) => {
+            if(answer === '') {
+                return `Please enter a valid email address`
+            }
+            return true;
+        },
+        filter(val) {return `https://github.com/${val}`}
+    }
+]
+const intern = [
+    {
+        type: 'input',
+        message: `What is the engineer's name?`,
+        name: 'name',
+        default: 'Bill',
+        validate: (answer) => {
+            if(answer === '') {
+                return `Please enter a name for the manager`
+            }
+            return true;
+        }
+    },
+    {
+        type:'input',
+        message:`What is the engineer's id number`,
+        name:'employeeId',
+        default: 8003,
+        validate: (answer) => {
+            if(isNaN(answer)) {
+                return `Please enter a valid number:`
+            }
+            return true;
+        }
+    },
+    {
+        type:'input',
+        message:`What is the engineer's email address?`,
         name:'email',
         default: 'billyboi@aol.com',
         validate: (answer) => {
@@ -54,38 +160,163 @@ const manager = [
             }
             return true;
         }
+    },
+    {
+        type:'input',
+        message:`What is the intern's School?`,
+        name:'school',
+        default: 'Mercer U',
+         
+        validate: (answer) => {
+            if(answer === '') {
+                return `Please enter a valid School name.`
+            }
+            return true;
+        },
     }
 ]
 
-function initialPrompt() {
+const newManager = () => {  //takes answers classes them as manager object pushes them to team array
 inquirer.prompt(manager).then(answers => {
 
-        const employee1 = new Employee(answers.name,answers.employeeId, answers.email)
-        console.log(employee1)
-        console.log(`this is ${employee1.name} with the ID: ${employee1.id} they can be reached at, ${employee1.email}`);
-        // cont();
+        const manager = new Manager(answers.name, answers.employeeId, answers.email, answers.office);
+        // console.log(manager1)
+        console.log(`Let's build the rest of the team\n`);
+        team.push(manager);
+        console.log(team);
+        cont();
     })
 }
 
-// function cont() {
-//     inquirer.prompt({
-//         type:'list',
-//         message:'Add and engineer, Intern or Finish building your team?',
-//         name:'roles',
-//         choices: ['Engineer','Intern','All Done']
-//     }).then(answer => {
-//         console.log(JSON.stringify(answer.name))
-//         if(answer.name === 'Engineer') {
-//             console.log('test')
 
-//         } else if(answer === 'Intern') {
-
-//         } else {
-
-//         }
-
-//     })
-    
+const newEngineer = () => {  //takes answers classes them as engineer object pushes them to team array
+    inquirer.prompt(engineer).then(answers => {
+        let engineer1 = new Engineer(answers.name, answers.employeeId, answers.email, answers.gitUser);
+        console.log(`Let's build the rest of the team\n`);
+        team.push(engineer1);
+        cont();
+    })
 }
 
-initialPrompt();
+const newIntern = () => {   //takes answers classes them as intern object pushes them to team array
+    inquirer.prompt(intern).then(answers => {
+        let intern1 = new Intern(answers.name, answers.employeeId, answers.email, answers.school);
+        console.log(intern1)
+        console.log(`Let's build the rest of the team\n`);
+        team.push(intern1);
+        console.log(team);
+        cont();
+    })
+}
+
+const cont = () => {
+    console.log(`______________________________________________________\n`)
+    inquirer.prompt({
+        type:'list',
+        message:'Add and engineer, Intern or Finish?',
+        name:'member',
+        choices: ['Engineer','Intern','All Done']
+    }).then(answer => {
+        if(answer.member === 'Engineer') {
+            newEngineer();
+        } else if(answer.member === 'Intern') {
+            newIntern();
+        } else {
+            console.log('Bag secured and the HTML is generated')
+            console.log(team);
+            writeHTML();
+        }
+
+    })
+}
+
+function manCard(manager) {
+    return `
+      <div class="card m-5" style="width: 25rem;">
+        <div class="bg-info text-white" >
+          <h5 class="card-title m-2">${manager.name}</h5>
+          <h5 class="card-text m-2">Manager</h5>
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item">id: ${manager.id}</li>
+          <li class="list-group-item">email: ${manager.email}</li>
+          <li class="list-group-item">office number: ${manager.officeNum}</li>
+        </ul>
+      </div>`
+  };
+  
+  function cards(member) {
+    switch (member.getRole()) {
+      case "Engineer":
+        return `
+          <div class="card m-4" style="width: 20rem;">
+            <div class="bg-info text-white" >
+              <h5 class="card-title m-2">${member.name}</h5>
+              <h5 class="card-text m-2">Engineer</h5>
+            </div>
+            <ul class="list-group">
+              <li class="list-group-item">id: ${member.id}</li>
+              <li class="list-group-item">email: ${member.email}</li>
+              <li class="list-group-item">github: ${member.gitUser}</li>
+            </ul>
+          </div>`;
+  
+      case "Intern" :
+        return `
+        <div class="card m-4" style="width: 20rem;">
+          <div class="bg-info text-white" >
+            <h5 class="card-title m-2">${member.name}</h5>
+            <h5 class="card-text m-2">Intern</h5>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item">id: ${member.id}</li>
+            <li class="list-group-item">email: ${member.email}</li>
+            <li class="list-group-item">school: ${member.school}</li>
+          </ul>
+        </div>`;
+    }  
+  }
+  
+  function makeHTML () {
+  return`
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=1, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Team Profile</title>
+</head>
+<body style="background-color: rgb(34, 51, 207);">
+    <div class="jumbotron jumbotron-fluid p-5" style="background-color: rgb(34, 51, 207); height: 20vh">
+        <h2 class="display-5 text-center" style="color:white">The Team</h2>
+    </div>
+    <div class="d-flex flex-wrap justify-content-around mt-3" style="background-color: rgb(171, 170, 170) ;">
+      ${manCard(team[0])}
+      </div>
+    <div class="d-flex flex-wrap justify-content-around mt-3" style="background-color: rgb(171, 170, 170) ;">
+      ${createCards()}
+    </div>
+  </body>
+  </html>`;
+  }
+  
+  function createCards() {
+    let allCards = cards(team[1]);
+    for (let i = 2; i < team.length; i++) {
+      allCards = allCards + cards(team[i]);
+    }
+    // console.log(allCards)
+    return allCards;
+  }
+
+  const writeHTML = function() {
+    const newHTML = makeHTML(cards)
+    fs.writeFile('./dist/index.html', newHTML, (error) => 
+    error ? console.log(error) : console.log('INDEX HTML MADE')
+    );
+  };
+  
+newManager(); //runs from the start
