@@ -232,7 +232,7 @@ const cont = () => {
 
 function manCard(manager) {
     return `
-      <div class="card m-5" style="width: 25rem;">
+      <div class="card m-5" style="width: 20rem;">
         <div class="bg-primary text-white" >
           <h5 class="card-title m-2">${manager.name}</h5>
           <h5 class="card-text m-2">Manager</h5>
