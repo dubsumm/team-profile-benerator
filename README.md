@@ -15,7 +15,7 @@
 
 Do exactly this:
 
-   npm i inquirer 
+   npm i inquirer and i jest
 
 ______________________________________________
 
@@ -23,7 +23,7 @@ ______________________________________________
 
 You can only use this for:
 
-    learning of node.js OOP for later use in portfolio
+    learning of node.js, TDD, OOP syntax. Also for later use in portfolio
 
 ______________________________________________
 
@@ -47,7 +47,7 @@ ______________________________________________
 
 Special thanks to:
 
-    Will Summerlin
+    Will Summerlin(ME), Hunter Padgett, and Teagrin Forde
 
 ______________________________________________
 
@@ -55,7 +55,7 @@ ______________________________________________
 
 Best way to test this is:
 
-    TDD
+    npm test
 
 ______________________________________________
 

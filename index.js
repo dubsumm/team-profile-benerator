@@ -21,6 +21,7 @@ const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 const fs = require('fs');
+// const genHTML = require('./lib/genHTML');
 const team = [];
 const manager = [
     {
@@ -63,7 +64,7 @@ const manager = [
         type:'input',
         message:`What is the team manager's office number?`,
         name:'office',
-        default: '2',
+        default: 2,
         validate: (answer) => {
             if(isNaN(answer)) {
                 return `Please enter a valid number:`
@@ -289,7 +290,7 @@ function manCard(manager) {
 
     <title>Team Profile</title>
 </head>
-<body style="background-color: rgb(34, 51, 207);">
+<body style="background-color: rgb(171, 170, 170);">
     <div class="jumbotron jumbotron-fluid p-5" style="background-color: rgb(34, 51, 207); height: 20vh">
         <h2 class="display-5 text-center" style="color:white">The Team</h2>
     </div>
@@ -305,7 +306,7 @@ function manCard(manager) {
   
   function createCards() {
     let allCards = cards(team[1]);
-    for (let i = 1; i < team.length; i++) {
+    for (let i = 2; i < team.length; i++) {
       allCards = allCards + cards(team[i]);
     }
     // console.log(allCards)
