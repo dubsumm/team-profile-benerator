@@ -184,7 +184,7 @@ inquirer.prompt(manager).then(answers => {
         // console.log(manager1)
         console.log(`Let's build the rest of the team\n`);
         team.push(manager);
-        console.log(team);
+        // console.log(team);
         cont();
     })
 }
